@@ -1,0 +1,1014 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Zaglotus Team — Dota 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;800&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0e0f11;
+    --bg2: #131517;
+    --bg3: #161819;
+    --neo-light: #1d2024;
+    --neo-dark: #08090a;
+    --amber1: #ffb700;
+    --amber2: #ff9500;
+    --amber3: #ff6d00;
+    --amber4: #ffd600;
+    --text: #e8eaed;
+    --text-muted: #7a8494;
+    --header-h: 72px;
+    --radius: 18px;
+    --transition: cubic-bezier(0.16,1,0.3,1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Exo 2', sans-serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ─── NOISE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 9998;
+  }
+
+  /* ─── LANGUAGE SWITCHER ─── */
+  .lang-switcher {
+    position: fixed;
+    top: 20px;
+    right: 28px;
+    z-index: 9999;
+    display: flex;
+    gap: 6px;
+    background: rgba(20,22,25,0.7);
+    backdrop-filter: blur(14px);
+    border-radius: 32px;
+    padding: 5px 10px;
+    box-shadow: 4px 4px 10px var(--neo-dark), -2px -2px 8px var(--neo-light);
+  }
+
+  .lang-switcher button {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .lang-switcher button:hover { color: var(--text); }
+
+  .lang-switcher button.active {
+    background: linear-gradient(135deg, var(--amber1), var(--amber2));
+    color: #0e0f11;
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 560px;
+    height: 560px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,183,0,0.22) 0%, rgba(255,149,0,0.08) 50%, transparent 72%);
+    filter: blur(40px);
+    will-change: transform, opacity;
+    pointer-events: none;
+  }
+
+  .hero-logo-wrap {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    will-change: transform, opacity;
+  }
+
+  .hero-logo-img {
+    width: 300px;
+    height: 300px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 48px rgba(255,183,0,0.5));
+    transition: width 0.4s var(--transition), height 0.4s var(--transition);
+  }
+
+  .hero-wordmark {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(42px, 8vw, 88px);
+    letter-spacing: 0.12em;
+    background: linear-gradient(135deg, var(--amber1), var(--amber2) 60%, var(--amber3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .hero-subtitle {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(14px, 2vw, 18px);
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: -4px;
+  }
+
+  .hero-scroll-hint {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 2;
+    animation: bounce 2.4s ease-in-out infinite;
+  }
+
+  .hero-scroll-hint span {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .hero-scroll-hint svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--text-muted);
+    opacity: 0.6;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ─── STICKY HEADER ─── */
+  #sticky-header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--header-h);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    background: rgba(14,15,17,0.82);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6), 0 1px 0 rgba(255,183,0,0.08);
+    transform: translateY(-100%);
+    transition: transform 0.5s var(--transition);
+    will-change: transform;
+  }
+
+  #sticky-header.visible { transform: translateY(0); }
+
+  .header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .header-logo-img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 8px rgba(255,183,0,0.4));
+  }
+
+  .header-logo span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.12em;
+    background: linear-gradient(90deg, var(--amber1), var(--amber2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  nav.header-nav {
+    margin-left: auto;
+    margin-right: 20px;
+    display: flex;
+    gap: 28px;
+  }
+
+  nav.header-nav a {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  nav.header-nav a:hover { color: var(--amber1); }
+
+  /* ─── NEOMORPHIC HELPERS ─── */
+  .neo-card {
+    background: var(--bg2);
+    border-radius: var(--radius);
+    box-shadow: 6px 6px 16px var(--neo-dark), -4px -4px 12px var(--neo-light), inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+
+  .neo-inset {
+    background: var(--bg2);
+    border-radius: var(--radius);
+    box-shadow: inset 4px 4px 10px var(--neo-dark), inset -3px -3px 8px var(--neo-light);
+  }
+
+  /* ─── SECTION HEADERS ─── */
+  .section-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--amber2);
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 6vw, 64px);
+    letter-spacing: 0.06em;
+    line-height: 1;
+    color: var(--text);
+  }
+
+  /* ─── ROSTER SECTION ─── */
+  #roster {
+    padding: 120px 5vw 80px;
+    min-height: 100vh;
+  }
+
+  .roster-header {
+    margin-bottom: 56px;
+  }
+
+  .roster-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px;
+  }
+
+  .player-card {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    background: var(--bg2);
+    box-shadow: 8px 8px 20px var(--neo-dark), -4px -4px 14px var(--neo-light);
+    transition: transform 0.4s var(--transition), box-shadow 0.4s var(--transition);
+    opacity: 0;
+    transform: translateY(60px);
+    will-change: transform, opacity;
+  }
+
+  .player-card.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .player-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 12px 18px 36px rgba(0,0,0,0.6), -4px -4px 14px var(--neo-light), 0 0 30px rgba(255,183,0,0.12);
+  }
+
+  .player-img-wrap {
+    width: 100%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, var(--bg2), var(--bg3));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .player-img-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(14,15,17,0.95) 0%, rgba(14,15,17,0.1) 50%, transparent 100%);
+  }
+
+  .player-placeholder {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    color: rgba(255,183,0,0.12);
+    user-select: none;
+    z-index: 1;
+    position: relative;
+  }
+
+  .player-info {
+    padding: 16px 18px 20px;
+    position: relative;
+  }
+
+  .player-role {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--amber2);
+    margin-bottom: 4px;
+  }
+
+  .player-nick {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 0.06em;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .player-name {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 500;
+  }
+
+  /* ─── DOTA POSITION BADGES ─── */
+  .player-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255,183,0,0.12);
+    border: 1px solid rgba(255,183,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    color: var(--amber1);
+    z-index: 2;
+    letter-spacing: 0;
+  }
+
+  /* ─── GRID NAV ─── */
+  #grid-nav {
+    padding: 80px 5vw;
+  }
+
+  .grid-nav-header {
+    margin-bottom: 48px;
+  }
+
+  .apple-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 700px) {
+    .apple-grid { grid-template-columns: 1fr; }
+  }
+
+  .apple-block {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 32px;
+    background: var(--bg2);
+    box-shadow: 8px 8px 24px var(--neo-dark), -4px -4px 14px var(--neo-light);
+    transition: transform 0.45s var(--transition), box-shadow 0.45s var(--transition);
+    will-change: transform;
+    cursor: default;
+  }
+
+  .apple-block::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,183,0,0.0) 0%, rgba(255,149,0,0.0) 100%);
+    transition: background 0.4s;
+    z-index: 1;
+  }
+
+  .apple-block:hover::before {
+    background: linear-gradient(135deg, rgba(255,183,0,0.07) 0%, rgba(255,149,0,0.04) 100%);
+  }
+
+  .apple-block:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 14px 22px 44px rgba(0,0,0,0.65), -4px -4px 14px var(--neo-light), 0 0 40px rgba(255,183,0,0.1);
+  }
+
+  .apple-block-bg {
+    position: absolute;
+    inset: 0;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    opacity: 0.18;
+    filter: saturate(0.5);
+    transition: opacity 0.4s, filter 0.4s;
+  }
+
+  .apple-block:hover .apple-block-bg {
+    opacity: 0.28;
+    filter: saturate(0.8);
+  }
+
+  .apple-block-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(14,15,17,0.95) 0%, rgba(14,15,17,0.3) 60%, transparent 100%);
+    z-index: 1;
+  }
+
+  .apple-block-icon {
+    position: absolute;
+    top: 28px;
+    left: 32px;
+    z-index: 2;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: rgba(255,183,0,0.5);
+    transition: opacity 0.3s;
+  }
+
+  .apple-block:hover .apple-block-icon { opacity: 1; color: var(--amber1); }
+
+  .apple-block-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .apple-block-tag {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--amber1);
+    margin-bottom: 6px;
+    opacity: 0.8;
+  }
+
+  .apple-block-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(28px, 4vw, 44px);
+    letter-spacing: 0.05em;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .apple-block-subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    font-weight: 400;
+  }
+
+  /* ─── SECTION DIVIDER ─── */
+  .section-divider {
+    width: 90vw;
+    margin: 0 5vw;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,183,0,0.15), transparent);
+  }
+
+  /* ─── ABOUT SECTION ─── */
+  #about {
+    padding: 100px 5vw;
+  }
+
+  .about-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  @media (max-width: 800px) {
+    .about-inner { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  .about-text h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 5vw, 58px);
+    letter-spacing: 0.06em;
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+
+  .about-text h2 span {
+    background: linear-gradient(90deg, var(--amber1), var(--amber2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .about-text p {
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.8;
+    max-width: 480px;
+  }
+
+  .about-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .about-emblem {
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,183,0,0.08) 0%, rgba(255,149,0,0.04) 50%, transparent 70%);
+    border: 1px solid rgba(255,183,0,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    animation: pulse-glow 4s ease-in-out infinite;
+  }
+
+  .about-emblem::before {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,183,0,0.06);
+  }
+
+  .about-emblem-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    background: linear-gradient(135deg, var(--amber1), var(--amber2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.06em;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 40px rgba(255,183,0,0.08), 0 0 80px rgba(255,183,0,0.04); }
+    50% { box-shadow: 0 0 60px rgba(255,183,0,0.16), 0 0 120px rgba(255,183,0,0.08); }
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    padding: 32px 5vw;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  footer .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.1em;
+    background: linear-gradient(90deg, var(--amber1), var(--amber2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  footer p {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  footer .footer-note {
+    font-size: 11px;
+    color: rgba(255,183,0,0.3);
+    font-family: 'Rajdhani', sans-serif;
+    letter-spacing: 0.1em;
+  }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s var(--transition), transform 0.7s var(--transition);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 600px) {
+    .hero-logo-img { width: 220px; height: 220px; }
+    .lang-switcher { top: 14px; right: 14px; }
+    .lang-switcher button { padding: 4px 8px; font-size: 12px; }
+    nav.header-nav { gap: 16px; }
+    nav.header-nav a { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ LANGUAGE SWITCHER ═══════════ -->
+<div class="lang-switcher">
+  <button data-lang="en" class="active">EN</button>
+  <button data-lang="ru">RU</button>
+  <button data-lang="kk">KK</button>
+</div>
+
+<!-- ═══════════ STICKY HEADER ═══════════ -->
+<header id="sticky-header">
+  <a class="header-logo" href="#hero">
+    <img class="header-logo-img" src="logo.png" alt="Zaglotus"/>
+    <span>ZAGLOTUS</span>
+  </a>
+  <nav class="header-nav">
+    <a href="#roster" data-i18n-nav-players>Players</a>
+    <a href="#divisions" data-i18n-nav-divisions>Divisions</a>
+    <a href="#about" data-i18n-nav-about>About</a>
+  </nav>
+</header>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-logo-wrap">
+    <img class="hero-logo-img" src="logo.png" alt="Zaglotus Logo"/>
+    <div class="hero-wordmark">ZAGLOTUS TEAM</div>
+    <div class="hero-subtitle">Dota 2 — Esports Division</div>
+  </div>
+  <div class="hero-scroll-hint">
+    <span>Scroll</span>
+    <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+  </div>
+</section>
+
+<!-- ═══════════ ROSTER ═══════════ -->
+<section id="roster">
+
+  <!-- Coaching Staff -->
+  <div class="roster-header reveal">
+    <div class="section-label" data-i18n="coachLabel">Coaching Staff</div>
+    <div class="section-title" data-i18n="coachTitle">Coach</div>
+  </div>
+  <div class="roster-grid" style="max-width:300px; margin-bottom:0;">
+    <a class="player-card revealed" href="https://steamcommunity.com/profiles/76561198387549102/" target="_blank" rel="noopener" style="text-decoration:none; display:block;">
+      <div class="player-badge">C</div>
+      <div class="player-img-wrap" style="aspect-ratio:1/1;">
+        <img src="dudonk.png" alt="dudonk" style="width:100%;height:100%;object-fit:cover;object-position:top center;border-radius:0;"/>
+      </div>
+      <div class="player-info">
+        <div class="player-role" data-i18n="roleCoach">Head Coach</div>
+        <div class="player-nick">dudonk</div>
+        <div class="player-name"><span data-i18n="steamLink">Steam Profile</span><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" style="vertical-align:middle;margin-left:5px;opacity:0.55"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.492 1.009 2.448-.397.957-1.494 1.411-2.455 1.019zm8.397-10.226c0-1.664-1.352-3.015-3.015-3.015-1.665 0-3.015 1.351-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.253 0-2.265-1.014-2.265-2.265z"/></svg></div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Active Roster -->
+  <div class="roster-header reveal" style="margin-top:72px;">
+    <div class="section-label" data-i18n="rosterLabel">The Squad</div>
+    <div class="section-title" data-i18n="rosterTitle">Active Roster <span>Dota 2</span></div>
+  </div>
+  <div class="roster-grid">
+
+    <!-- Coach — dudonk -->
+    <a class="player-card" href="https://steamcommunity.com/profiles/76561198387549102/" target="_blank" rel="noopener" style="text-decoration:none; display:block;">
+      <div class="player-badge">C</div>
+      <div class="player-img-wrap">
+        <img src="dudonk.png" alt="dudonk" style="width:100%;height:100%;object-fit:cover;object-position:top center;border-radius:0;"/>
+      </div>
+      <div class="player-info">
+        <div class="player-role" data-i18n="roleCoach">Head Coach</div>
+        <div class="player-nick">dudonk</div>
+        <div class="player-name"><span data-i18n="steamLink">Steam Profile</span><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" style="vertical-align:middle;margin-left:5px;opacity:0.55"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.492 1.009 2.448-.397.957-1.494 1.411-2.455 1.019zm8.397-10.226c0-1.664-1.352-3.015-3.015-3.015-1.665 0-3.015 1.351-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.253 0-2.265-1.014-2.265-2.265z"/></svg></div>
+      </div>
+    </a>
+
+    <!-- Player — Виталик -->
+    <a class="player-card" href="https://steamcommunity.com/profiles/76561199645820419/" target="_blank" rel="noopener" style="text-decoration:none; display:block;">
+      <div class="player-img-wrap">
+        <img src="vVodoLazz.png" alt="Виталик" style="width:100%;height:100%;object-fit:cover;object-position:top center;border-radius:0;"/>
+      </div>
+      <div class="player-info">
+        <div class="player-role" data-i18n="rolePlayer">Player</div>
+        <div class="player-nick">Виталик</div>
+        <div class="player-name"><span data-i18n="steamLink">Steam Profile</span><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" style="vertical-align:middle;margin-left:5px;opacity:0.55"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.492 1.009 2.448-.397.957-1.494 1.411-2.455 1.019zm8.397-10.226c0-1.664-1.352-3.015-3.015-3.015-1.665 0-3.015 1.351-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.253 0-2.265-1.014-2.265-2.265z"/></svg></div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════ DIVISIONS ═══════════ -->
+<section id="divisions">
+  <div class="grid-nav-header reveal" style="padding-top: 80px;">
+    <div class="section-label" data-i18n="divLabel">Our Divisions</div>
+    <div class="section-title" data-i18n="divTitle">Team Structure</div>
+  </div>
+  <div class="apple-grid reveal">
+    <div class="apple-block">
+      <div class="apple-block-overlay"></div>
+      <div class="apple-block-icon">⚔</div>
+      <div class="apple-block-content">
+        <div class="apple-block-tag" data-i18n="mainTag">Main Squad</div>
+        <div class="apple-block-title">Dota 2</div>
+        <div class="apple-block-subtitle" data-i18n="mainSub">Active competitive roster</div>
+      </div>
+    </div>
+    <div class="apple-block">
+      <div class="apple-block-overlay"></div>
+      <div class="apple-block-icon">★</div>
+      <div class="apple-block-content">
+        <div class="apple-block-tag" data-i18n="academyTag">Academy</div>
+        <div class="apple-block-title" data-i18n="academyTitle">Dota 2 Youth</div>
+        <div class="apple-block-subtitle" data-i18n="academySub">Developing next generation talent</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════ ABOUT ═══════════ -->
+<section id="about">
+  <div class="about-inner reveal">
+    <div class="about-text">
+      <div class="section-label" data-i18n="aboutLabel">Who We Are</div>
+      <h2 data-i18n="aboutTitle">We are <span>Zaglotus</span></h2>
+      <p data-i18n="aboutText">A competitive Dota 2 team built on discipline, strategy, and the drive to compete at the highest level. We train daily, analyze relentlessly, and play as one. The name Zaglotus draws from ancient lore — a symbol of resilience and rising through challenges. Whether in pub matches or tournament brackets, we play to win.</p>
+    </div>
+    <div class="about-visual">
+      <div class="about-emblem">
+        <div class="about-emblem-text">Z</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="footer-logo">ZAGLOTUS TEAM</div>
+  <p>&copy; 2025 Zaglotus Team. All rights reserved.</p>
+  <div class="footer-note">DOTA 2 IS A REGISTERED TRADEMARK OF VALVE CORP.</div>
+</footer>
+
+<!-- ═══════════ SCRIPTS ═══════════ -->
+<script>
+  // ── Translations ──
+  const i18n = {
+    en: {
+      coachLabel:     'Coaching Staff',
+      coachTitle:      'Coach',
+      roleCoach:       'Head Coach',
+      steamLink:       'Steam Profile →',
+      rosterLabel:     'The Squad',
+      rosterTitle:     'Active Roster Dota 2',
+      roleCarry:       'Carry',
+      roleMid:         'Mid',
+      roleOff:         'Offlane',
+      roleSoft:        'Soft Support',
+      roleHard:        'Hard Support',
+      divLabel:        'Our Divisions',
+      divTitle:        'Team Structure',
+      mainTag:         'Main Squad',
+      mainSub:         'Active competitive roster',
+      academyTag:      'Academy',
+      academyTitle:    'Dota 2 Youth',
+      academySub:      'Developing next generation talent',
+      aboutLabel:      'Who We Are',
+      aboutTitle:      'We are <span>Zaglotus</span>',
+      aboutText:       'A competitive Dota 2 team built on discipline, strategy, and the drive to compete at the highest level. We train daily, analyze relentlessly, and play as one. The name Zaglotus draws from ancient lore — a symbol of resilience and rising through challenges. Whether in pub matches or tournament brackets, we play to win.',
+      navPlayers:      'Players',
+      navDivisions:    'Divisions',
+      navAbout:        'About',
+      heroSubtitle:    'Dota 2 — Esports Division',
+      footerNote:      'DOTA 2 IS A REGISTERED TRADEMARK OF VALVE CORP.',
+      nick1: 'ZAG·Carry', name1: 'Player Name',
+      nick2: 'ZAG·Mid',   name2: 'Player Name',
+      nick3: 'ZAG·Off',   name3: 'Player Name',
+      nick4: 'ZAG·Soft',  name4: 'Player Name',
+      nick5: 'ZAG·Hard',  name5: 'Player Name',
+      rolePlayer: 'Player', namePlayer: 'Player Name',
+    },
+    ru: {
+      coachLabel:     'Тренерский состав',
+      coachTitle:      'Тренер',
+      roleCoach:       'Главный тренер',
+      steamLink:       'Steam профиль →',
+      rosterLabel:     'Состав',
+      rosterTitle:     'Основной состав Dota 2',
+      roleCarry:       'Керри',
+      roleMid:         'Мид',
+      roleOff:         'Оффлейн',
+      roleSoft:        'Саппорт (4)',
+      roleHard:        'Хардсаппорт',
+      divLabel:        'Наши подразделения',
+      divTitle:        'Структура команды',
+      mainTag:         'Основной состав',
+      mainSub:         'Активный конкурентный ростер',
+      academyTag:      'Академия',
+      academyTitle:    'Dota 2 Молодёжь',
+      academySub:      'Воспитываем будущих чемпионов',
+      aboutLabel:      'О нас',
+      aboutTitle:      'Мы — <span>Zaglotus</span>',
+      aboutText:       'Конкурентная команда по Dota 2, построенная на дисциплине, стратегии и стремлении побеждать на высшем уровне. Мы тренируемся каждый день, анализируем без устали и играем как единое целое. Zaglotus — символ стойкости и преодоления испытаний. Мы играем, чтобы побеждать.',
+      navPlayers:      'Игроки',
+      navDivisions:    'Дивизионы',
+      navAbout:        'О нас',
+      heroSubtitle:    'Dota 2 — Киберспортивное подразделение',
+      footerNote:      'DOTA 2 — ЗАРЕГИСТРИРОВАННЫЙ ТОВАРНЫЙ ЗНАК VALVE CORP.',
+      nick1: 'ZAG·Carry', name1: 'Имя игрока',
+      nick2: 'ZAG·Mid',   name2: 'Имя игрока',
+      nick3: 'ZAG·Off',   name3: 'Имя игрока',
+      nick4: 'ZAG·Soft',  name4: 'Имя игрока',
+      nick5: 'ZAG·Hard',  name5: 'Имя игрока',
+      rolePlayer: 'Игрок', namePlayer: 'Имя игрока',
+    },
+    kk: {
+      coachLabel:     'Жаттықтырушы құрам',
+      coachTitle:      'Жаттықтырушы',
+      roleCoach:       'Бас жаттықтырушы',
+      steamLink:       'Steam профиль →',
+      rosterLabel:     'Команда',
+      rosterTitle:     'Негізгі құрам Dota 2',
+      roleCarry:       'Керри',
+      roleMid:         'Мид',
+      roleOff:         'Оффлейн',
+      roleSoft:        'Жұмсақ қолдау (4)',
+      roleHard:        'Қатты қолдау',
+      divLabel:        'Бөлімшелеріміз',
+      divTitle:        'Команда құрылымы',
+      mainTag:         'Негізгі құрам',
+      mainSub:         'Бәсекеге қабілетті құрам',
+      academyTag:      'Академия',
+      academyTitle:    'Dota 2 Жастар',
+      academySub:      'Келесі буын таланттарын дамыту',
+      aboutLabel:      'Біз туралы',
+      aboutTitle:      'Біз — <span>Zaglotus</span>',
+      aboutText:       'Тәртіптілік, стратегия және ең жоғары деңгейде жарысуға ұмтылыс негізінде құрылған Dota 2 бәсекеге қабілетті командасы. Біз күнделікті жаттығамыз, үнемі талдаймыз және бірге ойнаймыз. Zaglotus — төзімділік пен қиындықтарды жеңу символы.',
+      navPlayers:      'Ойыншылар',
+      navDivisions:    'Бөлімшелер',
+      navAbout:        'Біз туралы',
+      heroSubtitle:    'Dota 2 — Киберспорт бөлімі',
+      footerNote:      'DOTA 2 — VALVE CORP. ТІРКЕУЛІ ТАУАР ЖОЛЫ.',
+      nick1: 'ZAG·Carry', name1: 'Ойыншы аты',
+      nick2: 'ZAG·Mid',   name2: 'Ойыншы аты',
+      nick3: 'ZAG·Off',   name3: 'Ойыншы аты',
+      nick4: 'ZAG·Soft',  name4: 'Ойыншы аты',
+      nick5: 'ZAG·Hard',  name5: 'Ойыншы аты',
+      rolePlayer: 'Ойыншы', namePlayer: 'Ойыншы аты',
+    }
+  };
+
+  // ── Apply translations ──
+  function applyTranslations(lang) {
+    // Static texts
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (i18n[lang][key]) el.innerHTML = i18n[lang][key];
+    });
+
+    // Placeholder content (nicknames, real names)
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      if (i18n[lang][key]) el.textContent = i18n[lang][key];
+    });
+
+    // Nav links
+    document.querySelector('[data-i18n-nav-players]').textContent = i18n[lang].navPlayers;
+    document.querySelector('[data-i18n-nav-divisions]').textContent = i18n[lang].navDivisions;
+    document.querySelector('[data-i18n-nav-about]').textContent = i18n[lang].navAbout;
+
+    // Hero subtitle
+    document.querySelector('.hero-subtitle').textContent = i18n[lang].heroSubtitle;
+
+    // Footer note
+    document.querySelector('footer .footer-note').textContent = i18n[lang].footerNote;
+
+    // Update active lang button
+    document.querySelectorAll('.lang-switcher button').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+
+    // Update HTML lang attribute
+    document.documentElement.setAttribute('lang', lang);
+    document.documentElement.setAttribute('data-lang', lang);
+
+    // Save preference
+    localStorage.setItem('zaglotus-lang', lang);
+  }
+
+  // ── Init language ──
+  const savedLang = localStorage.getItem('zaglotus-lang') || 'en';
+  applyTranslations(savedLang);
+
+  // ── Language switcher listeners ──
+  document.querySelectorAll('.lang-switcher button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      applyTranslations(btn.getAttribute('data-lang'));
+    });
+  });
+
+  // ── Sticky header on scroll ──
+  const header = document.getElementById('sticky-header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > window.innerHeight * 0.6) {
+      header.classList.add('visible');
+    } else {
+      header.classList.remove('visible');
+    }
+  }, { passive: true });
+
+  // ── Scroll reveal ──
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  // ── Player cards stagger reveal ──
+  const allCards = document.querySelectorAll('.player-card');
+  const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const parentGrid = entry.target.closest('.roster-grid');
+        const cards = parentGrid.querySelectorAll('.player-card');
+        cards.forEach((card, i) => {
+          if (!card.classList.contains('revealed')) {
+            setTimeout(() => card.classList.add('revealed'), i * 120);
+          }
+        });
+        cardObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  allCards.forEach(card => {
+    if (!card.classList.contains('revealed')) cardObserver.observe(card);
+  });
+
+  // ── Smooth scroll for nav links ──
+  document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
