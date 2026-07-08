@@ -624,12 +624,29 @@
     letter-spacing: 0.05em;
   }
 
-  footer .footer-note {
-    font-size: 11px;
-    color: rgba(255,183,0,0.3);
+  /* ─── DISCORD BUTTON ─── */
+  .discord-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    background: #5865F2;
+    color: #fff;
+    border-radius: 50px;
     font-family: 'Rajdhani', sans-serif;
-    letter-spacing: 0.1em;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+    box-shadow: 0 4px 20px rgba(88,101,242,0.4);
   }
+  .discord-btn:hover {
+    background: #4752c4;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(88,101,242,0.55);
+  }
+  .discord-btn svg { width: 20px; height: 20px; fill: currentColor; flex-shrink: 0; }
 
   /* ─── SCROLL REVEAL ─── */
   .reveal {
@@ -794,6 +811,16 @@
   </div>
 </section>
 
+<!-- ═══════════ DISCORD ═══════════ -->
+<section id="socials" style="padding:80px 5vw;text-align:center;">
+  <div class="reveal" style="max-width:560px;margin:0 auto;">
+    <div class="section-label" data-i18n="socialsLabel">Community</div>
+    <div class="section-title" data-i18n="socialsTitle">Join Our Discord</div>
+    <p data-i18n="socialsText" style="color:var(--text-muted);font-size:15px;margin:16px 0 32px;line-height:1.7;">Meet the team, chat with players and fans, get updates on matches and tournaments. We're waiting for you!</p>
+    <a href="https://discord.gg/Gd4TgR4v6R" target="_blank" rel="noopener" class="discord-btn" data-i18n="socialsBtn">Join Discord Server</a>
+  </div>
+</section>
+
 <!-- ═══════════ FOOTER ═══════════ -->
 <footer>
   <div class="footer-logo">ZAGLOTUS TEAM</div>
@@ -838,6 +865,10 @@
       nick4: 'ZAG·Soft',  name4: 'Player Name',
       nick5: 'ZAG·Hard',  name5: 'Player Name',
       rolePlayer: 'Player', namePlayer: 'Player Name',
+      socialsLabel: 'Community',
+      socialsTitle: 'Join Our Discord',
+      socialsText: 'Meet the team, chat with players and fans, get updates on matches and tournaments. We\'re waiting for you!',
+      socialsBtn: 'Join Discord Server',
     },
     ru: {
       coachLabel:     'Тренерский состав',
@@ -872,6 +903,10 @@
       nick4: 'ZAG·Soft',  name4: 'Имя игрока',
       nick5: 'ZAG·Hard',  name5: 'Имя игрока',
       rolePlayer: 'Игрок', namePlayer: 'Имя игрока',
+      socialsLabel: 'Сообщество',
+      socialsTitle: 'Присоединяйся к Discord',
+      socialsText: 'Общайся с командой, игроками и фанатами, узнавай новости о матчах и турнирах. Мы ждём тебя!',
+      socialsBtn: 'Присоединиться к Discord',
     },
     kk: {
       coachLabel:     'Жаттықтырушы құрам',
@@ -906,6 +941,10 @@
       nick4: 'ZAG·Soft',  name4: 'Ойыншы аты',
       nick5: 'ZAG·Hard',  name5: 'Ойыншы аты',
       rolePlayer: 'Ойыншы', namePlayer: 'Ойыншы аты',
+      socialsLabel: 'Қауымдастық',
+      socialsTitle: 'Discord-ке қосыл',
+      socialsText: 'Командамен, ойыншылармен және жанкүйерлермен сөйлес, матчтар мен турнирлер туралы жаңалықтарды біліп отыр.',
+      socialsBtn: 'Discord серверіне қосылу',
     }
   };
 
