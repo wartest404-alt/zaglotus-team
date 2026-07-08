@@ -597,6 +597,208 @@
     50% { box-shadow: 0 0 60px rgba(255,183,0,0.16), 0 0 120px rgba(255,183,0,0.08); }
   }
 
+  /* ─── PLAYER MODAL ─── */
+  #player-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9990;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  #player-modal.open {
+    display: flex;
+  }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+  }
+  .modal-card {
+    position: relative;
+    background: var(--bg2);
+    border-radius: 28px;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.06), 0 0 60px rgba(255,183,0,0.08);
+    width: 100%;
+    max-width: 420px;
+    overflow: hidden;
+    animation: modal-in 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  }
+  @keyframes modal-in {
+    from { transform: scale(0.88) translateY(20px); opacity: 0; }
+    to   { transform: scale(1) translateY(0); opacity: 1; }
+  }
+  .modal-header {
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--bg3), var(--bg2));
+  }
+  .modal-header-img {
+    width: 100%;
+    aspect-ratio: 16/7;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    filter: brightness(0.5);
+  }
+  .modal-header-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(19,21,23,1) 0%, rgba(19,21,23,0.4) 60%, transparent 100%);
+  }
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(14,15,17,0.7);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text-muted);
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    z-index: 2;
+    line-height: 1;
+  }
+  .modal-close:hover { background: rgba(255,183,0,0.15); color: var(--amber1); }
+  .modal-identity {
+    position: absolute;
+    bottom: 20px;
+    left: 24px;
+    z-index: 2;
+  }
+  .modal-role {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--amber2);
+    margin-bottom: 4px;
+  }
+  .modal-nick {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 0.06em;
+    color: #fff;
+    line-height: 1;
+  }
+  .modal-body {
+    padding: 20px 24px 28px;
+  }
+  .modal-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .modal-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 20px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    width: 100%;
+    text-align: left;
+  }
+  .modal-btn:hover {
+    transform: translateY(-2px);
+  }
+  .modal-btn:active {
+    transform: translateY(0) scale(0.98);
+  }
+  .modal-btn svg {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+  }
+  .modal-btn-steam {
+    background: rgba(0,80,130,0.5);
+    border: 1px solid rgba(80,140,200,0.25);
+    color: #67c4f0;
+    box-shadow: 0 4px 16px rgba(0,100,160,0.2);
+  }
+  .modal-btn-steam:hover {
+    background: rgba(0,100,160,0.6);
+    box-shadow: 0 8px 24px rgba(0,120,190,0.35);
+  }
+  .modal-btn-dotabuff {
+    background: rgba(90,50,0,0.5);
+    border: 1px solid rgba(200,120,0,0.25);
+    color: #ffb700;
+    box-shadow: 0 4px 16px rgba(160,80,0,0.2);
+  }
+  .modal-btn-dotabuff:hover {
+    background: rgba(160,80,0,0.6);
+    box-shadow: 0 8px 24px rgba(200,100,0,0.35);
+  }
+  .modal-btn-replay {
+    background: rgba(255,50,50,0.15);
+    border: 1px solid rgba(255,80,80,0.25);
+    color: #ff8080;
+    box-shadow: 0 4px 16px rgba(200,40,40,0.15);
+  }
+  .modal-btn-replay:hover {
+    background: rgba(255,60,60,0.25);
+    box-shadow: 0 8px 24px rgba(200,50,50,0.3);
+  }
+  .modal-replay-panel {
+    display: none;
+    margin-top: 12px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: var(--bg3);
+  }
+  .modal-replay-panel.active {
+    display: block;
+  }
+  .modal-replay-video {
+    width: 100%;
+    aspect-ratio: 16/9;
+    display: block;
+    background: #000;
+  }
+  .modal-replay-sound {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: rgba(0,0,0,0.4);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.2s;
+    letter-spacing: 0.1em;
+  }
+  .modal-replay-sound:hover { color: var(--amber1); }
+  .modal-no-replay {
+    padding: 20px;
+    text-align: center;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
   /* ─── FOOTER ─── */
   footer {
     padding: 32px 5vw;
@@ -736,29 +938,24 @@
   <div class="roster-grid">
 
     <!-- Coach — dudonk -->
-    <a class="player-card" href="https://steamcommunity.com/profiles/76561198387549102/" target="_blank" rel="noopener" style="text-decoration:none; display:block;">
-      <div class="player-badge">C</div>
-      <div class="player-img-wrap">
-        <img src="dudonk.png" alt="dudonk" style="width:100%;height:100%;object-fit:cover;object-position:top center;border-radius:0;"/>
+    <div class="player-card" data-steam="https://steamcommunity.com/profiles/76561198387549102/" data-dotabuff="" data-replay="" data-role="Head Coach" data-nick="dudonk" data-img="dudonk.png" style="cursor:pointer;"> <div class="player-badge">C</div> <div class="player-img-wrap"> <img src="dudonk.png" alt="dudonk" style="width:100%;height:100%;object-fit:cover;object-position:top center;border-radius:0;"/>
       </div>
       <div class="player-info">
         <div class="player-role" data-i18n="roleCoach">Head Coach</div>
         <div class="player-nick">dudonk</div>
         <div class="player-name"><span data-i18n="steamLink">Steam Profile</span><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" style="vertical-align:middle;margin-left:5px;opacity:0.55"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.492 1.009 2.448-.397.957-1.494 1.411-2.455 1.019zm8.397-10.226c0-1.664-1.352-3.015-3.015-3.015-1.665 0-3.015 1.351-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.253 0-2.265-1.014-2.265-2.265z"/></svg></div>
       </div>
-    </a>
+    </div>
 
     <!-- Player — Виталик -->
-    <a class="player-card" href="https://steamcommunity.com/profiles/76561199645820419/" target="_blank" rel="noopener" style="text-decoration:none; display:block;">
-      <div class="player-img-wrap">
-        <img src="vVodoLazz.png" alt="Виталик" style="width:100%;height:100%;object-fit:cover;object-position:top center;border-radius:0;"/>
+    <div class="player-card" data-steam="https://steamcommunity.com/profiles/76561199645820419/" data-dotabuff="" data-replay="" data-role="Player" data-nick="Виталик" data-img="vVodoLazz.png" style="cursor:pointer;"> <div class="player-img-wrap"> <img src="vVodoLazz.png" alt="Виталик" style="width:100%;height:100%;object-fit:cover;object-position:top center;border-radius:0;"/>
       </div>
       <div class="player-info">
         <div class="player-role" data-i18n="rolePlayer">Player</div>
         <div class="player-nick">Виталик</div>
         <div class="player-name"><span data-i18n="steamLink">Steam Profile</span><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" style="vertical-align:middle;margin-left:5px;opacity:0.55"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.492 1.009 2.448-.397.957-1.494 1.411-2.455 1.019zm8.397-10.226c0-1.664-1.352-3.015-3.015-3.015-1.665 0-3.015 1.351-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.253 0-2.265-1.014-2.265-2.265z"/></svg></div>
       </div>
-    </a>
+    </div>
 
   </div>
 </section>
@@ -821,6 +1018,45 @@
   </div>
 </section>
 
+<!-- ═══════════ PLAYER MODAL ═══════════ -->
+<div id="player-modal">
+  <div class="modal-backdrop" id="modal-backdrop"></div>
+  <div class="modal-card">
+    <div class="modal-header">
+      <img class="modal-header-img" id="modal-header-img" src="" alt="">
+      <div class="modal-header-overlay"></div>
+      <button class="modal-close" id="modal-close" aria-label="Close">&#x2715;</button>
+      <div class="modal-identity">
+        <div class="modal-role" id="modal-role"></div>
+        <div class="modal-nick" id="modal-nick"></div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-actions">
+        <a class="modal-btn modal-btn-steam" id="modal-btn-steam" href="#" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0z"/></svg>
+          <span>Steam Profile</span>
+        </a>
+        <a class="modal-btn modal-btn-dotabuff" id="modal-btn-dotabuff" href="#" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+          <span>Dotabuff Profile</span>
+        </a>
+        <button class="modal-btn modal-btn-replay" id="modal-btn-replay">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 3H3c-1.11 0-2 .89-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zm-1 14H4c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1h16c.55 0 1 .45 1 1v10c0 .55-.45 1-1 1z"/></svg>
+          <span>Watch Replay</span>
+        </button>
+      </div>
+      <div class="modal-replay-panel" id="modal-replay-panel">
+        <video id="modal-video" class="modal-replay-video" src="" controls loop></video>
+        <div class="modal-replay-sound" id="modal-sound-toggle">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0014 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+          SOUND OFF — CLICK TO ENABLE
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ═══════════ FOOTER ═══════════ -->
 <footer>
   <div class="footer-logo">ZAGLOTUS TEAM</div>
@@ -869,6 +1105,7 @@
       socialsTitle: 'Join Our Discord',
       socialsText: 'Meet the team, chat with players and fans, get updates on matches and tournaments. We\'re waiting for you!',
       socialsBtn: 'Join Discord Server',
+      modalOpen: 'Open Profile',
     },
     ru: {
       coachLabel:     'Тренерский состав',
@@ -907,6 +1144,7 @@
       socialsTitle: 'Присоединяйся к Discord',
       socialsText: 'Общайся с командой, игроками и фанатами, узнавай новости о матчах и турнирах. Мы ждём тебя!',
       socialsBtn: 'Присоединиться к Discord',
+      modalOpen: 'Открыть профиль',
     },
     kk: {
       coachLabel:     'Жаттықтырушы құрам',
@@ -945,6 +1183,7 @@
       socialsTitle: 'Discord-ке қосыл',
       socialsText: 'Командамен, ойыншылармен және жанкүйерлермен сөйлес, матчтар мен турнирлер туралы жаңалықтарды біліп отыр.',
       socialsBtn: 'Discord серверіне қосылу',
+      modalOpen: 'Профильді ашу',
     }
   };
 
@@ -1047,6 +1286,87 @@
       const target = document.querySelector(link.getAttribute('href'));
       if (target) target.scrollIntoView({ behavior: 'smooth' });
     });
+  });
+
+  // ── Player Modal ──
+  const modal = document.getElementById('player-modal');
+  const modalBackdrop = document.getElementById('modal-backdrop');
+  const modalClose = document.getElementById('modal-close');
+  const modalNick = document.getElementById('modal-nick');
+  const modalRole = document.getElementById('modal-role');
+  const modalImg = document.getElementById('modal-header-img');
+  const btnSteam = document.getElementById('modal-btn-steam');
+  const btnDotabuff = document.getElementById('modal-btn-dotabuff');
+  const btnReplay = document.getElementById('modal-btn-replay');
+  const replayPanel = document.getElementById('modal-replay-panel');
+  const modalVideo = document.getElementById('modal-video');
+  const soundToggle = document.getElementById('modal-sound-toggle');
+
+  let soundEnabled = false;
+
+  function openModal(card) {
+    const steam = card.dataset.steam || '';
+    const dotabuff = card.dataset.dotabuff || '';
+    const replay = card.dataset.replay || '';
+    const role = card.dataset.role || '';
+    const nick = card.dataset.nick || '';
+    const img = card.dataset.img || '';
+
+    modalNick.textContent = nick;
+    modalRole.textContent = role;
+    modalImg.src = img;
+    modalImg.alt = nick;
+    btnSteam.href = steam || '#';
+    btnSteam.style.display = steam ? 'flex' : 'none';
+    btnDotabuff.href = dotabuff || '#';
+    btnDotabuff.style.display = dotabuff ? 'flex' : 'none';
+    btnDotabuff.style.opacity = dotabuff ? '1' : '0.4';
+    btnReplay.style.display = replay ? 'flex' : 'none';
+
+    if (replay) {
+      modalVideo.src = replay;
+      modalVideo.pause();
+      modalVideo.muted = true;
+      soundEnabled = false;
+      soundToggle.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0014 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg> SOUND OFF — CLICK TO ENABLE';
+      replayPanel.classList.remove('active');
+    } else {
+      replayPanel.classList.remove('active');
+      modalVideo.src = '';
+    }
+
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    if (modalVideo.src) modalVideo.pause();
+    replayPanel.classList.remove('active');
+  }
+
+  document.querySelectorAll('.player-card[data-steam]').forEach(card => {
+    card.addEventListener('click', () => openModal(card));
+  });
+
+  modalBackdrop.addEventListener('click', closeModal);
+  modalClose.addEventListener('click', closeModal);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  btnReplay.addEventListener('click', () => {
+    if (!modalVideo.src) return;
+    replayPanel.classList.toggle('active');
+    if (replayPanel.classList.contains('active')) modalVideo.play();
+    else modalVideo.pause();
+  });
+
+  soundToggle.addEventListener('click', () => {
+    soundEnabled = !soundEnabled;
+    modalVideo.muted = !soundEnabled;
+    soundToggle.innerHTML = soundEnabled
+      ? '<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg> SOUND ON'
+      : '<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M16.5 12A4.5 4.5 0 0014 7.97v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg> SOUND OFF — CLICK TO ENABLE';
   });
 </script>
 </body>
