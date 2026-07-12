@@ -623,7 +623,7 @@
     border-radius: 28px;
     box-shadow: 0 32px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.06), 0 0 60px rgba(255,183,0,0.08);
     width: 100%;
-    max-width: 420px;
+    max-width: 640px;
     overflow: hidden;
     animation: modal-in 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards;
   }
@@ -760,11 +760,12 @@
   }
   .modal-replay-panel {
     display: none;
-    margin-top: 12px;
-    border-radius: 14px;
+    margin: 12px -24px -28px;
+    border-radius: 0 0 28px 28px;
     overflow: hidden;
     border: 1px solid rgba(255,255,255,0.06);
-    background: var(--bg3);
+    border-top: none;
+    background: #000;
   }
   .modal-replay-panel.active {
     display: block;
@@ -774,6 +775,8 @@
     aspect-ratio: 16/9;
     display: block;
     background: #000;
+    max-height: 380px;
+    object-fit: contain;
   }
   .modal-replay-sound {
     display: flex;
@@ -1047,7 +1050,7 @@
         </button>
       </div>
       <div class="modal-replay-panel" id="modal-replay-panel">
-        <video id="modal-video" class="modal-replay-video" src="" controls controlsList="nodownload nofullscreen" playsinline loop></video>
+        <video id="modal-video" class="modal-replay-video" src="" controls controlsList="nodownload" playsinline loop allowfullscreen></video>
         <div class="modal-replay-sound" id="modal-sound-toggle">
           <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0014 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
           SOUND OFF — CLICK TO ENABLE
